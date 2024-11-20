@@ -1,0 +1,49 @@
+import java.util.*;
+import java.lang.*;
+class Tree{
+    class Node{
+        int data;
+        Node left, right;
+        Node(int data){
+            this.data = data;
+        }
+    }
+    Node root;
+    public void insert(int data){
+        root =insertRec(root, data);
+    }
+    public Node insertRec(Node root, int data){
+        if(root == null){
+            root = new Node(data);
+        }
+        else if ( root.data > data){
+            root.left  = insertRec(root.left,data);
+        }
+        else if ( root.data < data){
+            root.right  = insertRec(root.right, data);
+        }
+        return root;
+    }
+    public void print(){
+        printInOrder(root);
+    }
+    public void printInOrder(Node root){
+        if(root != null){
+            printInOrder(root.left);
+            System.out.print(root.data + " ");
+            printInOrder(root.right);
+        } 
+    }
+}
+class Main {
+    public static void main(String[] args) {
+        // System.out.println("Try programiz.pro");
+        Tree tree = new Tree();
+        tree.insert(54);
+        tree.insert(45);
+        tree.insert(34);
+        tree.insert(67); 
+        tree.print();
+        // System.out.println(tree);
+    }
+}
