@@ -1,49 +1,140 @@
 import java.util.*;
 import java.lang.*;
-class Tree{
-    class Node{
-        int data;
-        Node left, right;
-        Node(int data){
+
+class Tree<T> { 
+    class Node<T> {
+        T data;
+        Node<T> left, right;
+
+        Node(T data) {
             this.data = data;
         }
     }
-    Node root;
-    public void insert(int data){
-        root =insertRec(root, data);
+
+    Node<T> root; 
+    public void insert(T data) {
+        root = insertRec(root, data);
     }
-    public Node insertRec(Node root, int data){
-        if(root == null){
-            root = new Node(data);
-        }
-        else if ( root.data > data){
-            root.left  = insertRec(root.left,data);
-        }
-        else if ( root.data < data){
-            root.right  = insertRec(root.right, data);
+ 
+    public Node<T> insertRec(Node root, T data) {
+        if (root == null) {
+            root = new Node(data);   
+        } else {
+            if (data instanceof Integer) {
+                Integer currentData = (Integer) root.data;
+                Integer newData = (Integer) data;
+ 
+                if (currentData > newData) {
+                    root.left = insertRec(root.left, data);
+                } else if (currentData < newData) {
+                    root.right = insertRec(root.right, data);
+                }
+            } else if (data instanceof String) {
+                String currentData = (String) root.data;
+                String newData = (String) data;
+ 
+                if (currentData.compareTo(newData) > 0) {
+                    root.left = insertRec(root.left, data);
+                } else if (currentData.compareTo(newData) < 0) {
+                    root.right = insertRec(root.right, data);
+                }
+            } else if (data instanceof Employee) {
+                Employee currentData = (Employee) root.data;
+                Employee newData = (Employee) data;
+ 
+                if (currentData.getId() > newData.getId()) {
+                    root.left = insertRec(root.left, data);
+                } else if (currentData.getId() < newData.getId()) {
+                    root.right = insertRec(root.right, data);
+                }
+            }
         }
         return root;
     }
-    public void print(){
+ 
+    public void print() {
         printInOrder(root);
     }
-    public void printInOrder(Node root){
-        if(root != null){
+ 
+    public void printInOrder(Node root) {
+        if (root != null) {
             printInOrder(root.left);
             System.out.print(root.data + " ");
             printInOrder(root.right);
-        } 
+        }
     }
 }
-class Main {
+
+class Employee {
+    private int id;
+    private int salary;
+    private String name;
+
+    public Employee(int id, String name, int salary) {
+        this.id = id;
+        this.salary = salary;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void displayDetails() {
+        System.out.println("employee name: " + name);
+        System.out.println("employee id: " + id);
+        System.out.println("salary: " + salary);
+    }
+    public String toString() {
+        return "Employee : ID=" + id + ", Name=" + name + ", Salary=" + salary + ";";
+    }
+ 
+}
+
+public class Main {
     public static void main(String[] args) {
-        // System.out.println("Try programiz.pro");
-        Tree tree = new Tree();
+        Tree<Integer> tree = new Tree<>();
         tree.insert(54);
         tree.insert(45);
         tree.insert(34);
-        tree.insert(67); 
+        tree.insert(67);
         tree.print();
-        // System.out.println(tree);
+        System.out.println();
+
+        Tree<String> stringTree = new Tree<>();
+        stringTree.insert("pineapple");
+        stringTree.insert("apple");
+        stringTree.insert("banana");
+        stringTree.insert("mango");
+        stringTree.print();
+        System.out.println();
+ 
+        Tree<Employee> employeeTree = new Tree<>();
+        employeeTree.insert(new Employee(2, "R",35000)); 
+        employeeTree.insert(new Employee(1, "J",35000)); 
+        employeeTree.insert(new Employee(3, "A",35000)); 
+        employeeTree.insert(new Employee(8, "B",35000)); 
+     
+        employeeTree.print();
     }
 }
